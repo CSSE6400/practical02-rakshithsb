@@ -27,10 +27,9 @@ def get_todos():
     """Return the list of todo items"""
     todos = Todo.query.all()
     result = []
-    #print("Completed flag=", request.args.get('completed'))
     for todo in todos:
-        if request.args.get('completed'):
-            if request.args.get('completed') == todo.to_dict()['completed']:
+        if bool(request.args.get('completed')):
+            if bool(request.args.get('completed')) == todo.to_dict()['completed']:
                 result.append(todo.to_dict())
                 print("Results1", result)
             return jsonify(result)
@@ -69,7 +68,6 @@ def create_todo():
 def update_todo(todo_id):
     """Update a todo item and return the updated item"""
     todo = Todo.query.get(todo_id)
-    print(todo.to_dict())
     if todo is None:
         return jsonify({'error': 'Todo not found'}), 404
     
